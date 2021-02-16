@@ -17,7 +17,7 @@ func main() {
 		case 1:
 			iniciarMonitoramento()
 		case 2:
-			fmt.Println(("Logs..."))
+			iniciarLog()
 		case 0:
 			fmt.Println("Saindo...")
 			os.Exit(0)
@@ -68,4 +68,8 @@ func iniciarMonitoramento() {
 	}
 
 	fmt.Println()
+}
+
+func iniciarLog() {
+	fmt.Println(("Verificando Logs..."))
 }
