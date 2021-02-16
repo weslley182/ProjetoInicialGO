@@ -9,20 +9,22 @@ import (
 func main() {
 	exibeIntroducao()
 
-	exibeMenu()
+	for {
+		exibeMenu()
 
-	comando := leComando()
-	switch comando {
-	case 1:
-		iniciarMonitoramento()
-	case 2:
-		fmt.Println(("Logs..."))
-	case 0:
-		fmt.Println("Saindo...")
-		os.Exit(0)
-	default:
-		fmt.Println("Erro...")
-		os.Exit(-1)
+		comando := leComando()
+		switch comando {
+		case 1:
+			iniciarMonitoramento()
+		case 2:
+			fmt.Println(("Logs..."))
+		case 0:
+			fmt.Println("Saindo...")
+			os.Exit(0)
+		default:
+			fmt.Println("Erro...")
+			os.Exit(-1)
+		}
 	}
 }
 
@@ -55,8 +57,15 @@ func leComando() int {
 
 func iniciarMonitoramento() {
 	fmt.Println("Monitorando...")
-	site := "https://github.com/weslley182/ProjetoInicialGO"
+	//site := "https://github.com/weslley182/ProjetoInicialGO"
+	site := "https://random-status-code.herokuapp.com"
 	resp, _ := http.Get(site)
-	fmt.Println(resp)
+
+	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+		fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
+	} else {
+		fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
+	}
+
 	fmt.Println()
 }
