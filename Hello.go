@@ -14,7 +14,7 @@ func main() {
 	fmt.Println("0 - Sair do programa")
 
 	var comando int
-	fmt.Scanf("%d", &comando)
+	fmt.Scan(&comando)
 
 	fmt.Println("Valor da variável: ", comando)
 	fmt.Println("Endereço da variável:", &comando)
