@@ -57,27 +57,34 @@ func leComando() int {
 }
 
 func iniciarMonitoramento() {
+	const qtdMonitoramento = 5
+	const tempoDelay = 3
+
 	fmt.Println("Monitorando...")
 	sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
 		"https://random-status-code.herokuapp.com"}
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < qtdMonitoramento; i++ {
 		testarSites(sites)
-		time.Sleep(3 * time.Second)
+		time.Sleep(tempoDelay * time.Second)
 	}
 	fmt.Println()
 }
 
 func testarSites(sites []string) {
+	const statusOkIni = 200
+	const statusOkFim = 300
+
 	for _, site := range sites {
 		resp, _ := http.Get(site)
 
-		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+		if resp.StatusCode >= statusOkIni && resp.StatusCode < statusOkFim {
 			fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
 		} else {
 			fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
 		}
 	}
+	fmt.Println()
 }
 
 func iniciarLog() {
