@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -22,7 +23,7 @@ func main() {
 		case 1:
 			iniciarMonitoramento()
 		case 2:
-			registraLog("sitefalse", false)
+			imprimirLogs()
 		case 0:
 			fmt.Println("Saindo...")
 			os.Exit(0)
@@ -142,4 +143,13 @@ func retornarArquivoDeLog() *os.File {
 		fmt.Println("Erro encontrado", erro)
 	}
 	return arquivo
+}
+
+func imprimirLogs() {
+	arquivo, erro := ioutil.ReadFile("log.txt")
+
+	if erro != nil {
+		fmt.Println("Erro: ", erro)
+	}
+	fmt.Println(string(arquivo))
 }
