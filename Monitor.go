@@ -18,7 +18,7 @@ func main() {
 	for {
 		exibeMenu()
 
-		comando := leComando()
+		comando := lerComando()
 		switch comando {
 		case 1:
 			iniciarMonitoramento()
@@ -50,7 +50,7 @@ func exibeIntroducao() {
 	fmt.Println()
 }
 
-func leComando() int {
+func lerComando() int {
 	var comandoLido int
 	fmt.Scan(&comandoLido)
 
@@ -91,10 +91,10 @@ func testarSites(sites []string) {
 
 		if resp.StatusCode >= statusOkIni && resp.StatusCode < statusOkFim {
 			fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
-			registraLog(site, true)
+			registrarLog(site, true)
 		} else {
 			fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
-			registraLog(site, false)
+			registrarLog(site, false)
 		}
 	}
 	fmt.Println()
@@ -122,7 +122,7 @@ func lerSitesDoArquivo() []string {
 	return sites
 }
 
-func registraLog(site string, status bool) {
+func registrarLog(site string, status bool) {
 	//https://golang.org/src/time/format.go
 	const formatoData = "02/01/2006 15:04:05"
 	const quebraLinha = "\n"
