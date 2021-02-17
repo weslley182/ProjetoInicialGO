@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -60,6 +61,14 @@ func iniciarMonitoramento() {
 	sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
 		"https://random-status-code.herokuapp.com"}
 
+	for i := 0; i < 5; i++ {
+		testarSites(sites)
+		time.Sleep(3 * time.Second)
+	}
+	fmt.Println()
+}
+
+func testarSites(sites []string) {
 	for _, site := range sites {
 		resp, _ := http.Get(site)
 
@@ -69,8 +78,6 @@ func iniciarMonitoramento() {
 			fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
 		}
 	}
-
-	fmt.Println()
 }
 
 func iniciarLog() {
