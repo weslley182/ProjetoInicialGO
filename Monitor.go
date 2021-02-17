@@ -97,7 +97,7 @@ func testarSites(sites []string) {
 }
 
 func lerSitesDoArquivo() []string {
-	const quebraLinha = '\n'
+	const delimitadorQuebraLinha = '\n'
 
 	var sites []string
 	arquivo, erro := os.Open("sites.txt")
@@ -108,7 +108,7 @@ func lerSitesDoArquivo() []string {
 
 	leitor := bufio.NewReader(arquivo)
 	for {
-		linha, erro := leitor.ReadString(quebraLinha)
+		linha, erro := leitor.ReadString(delimitadorQuebraLinha)
 		sites = append(sites, strings.TrimSpace(linha))
 		if erro == io.EOF {
 			break
