@@ -57,14 +57,16 @@ func leComando() int {
 
 func iniciarMonitoramento() {
 	fmt.Println("Monitorando...")
-	//site := "https://github.com/weslley182/ProjetoInicialGO"
-	site := "https://random-status-code.herokuapp.com"
-	resp, _ := http.Get(site)
+	sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
+		"https://random-status-code.herokuapp.com"}
+	for i := 0; i < len(sites); i++ {
+		resp, _ := http.Get(sites[i])
 
-	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
-		fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
-	} else {
-		fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
+		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+			fmt.Println("O site'", sites[i], "'esta em funcionamento", resp.StatusCode)
+		} else {
+			fmt.Println("O site'", sites[i], "'esta com problemas", resp.StatusCode)
+		}
 	}
 
 	fmt.Println()
