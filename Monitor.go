@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -21,7 +22,7 @@ func main() {
 		case 1:
 			iniciarMonitoramento()
 		case 2:
-			iniciarLog()
+			registraLog("sitefalse", false)
 		case 0:
 			fmt.Println("Saindo...")
 			os.Exit(0)
@@ -89,8 +90,10 @@ func testarSites(sites []string) {
 
 		if resp.StatusCode >= statusOkIni && resp.StatusCode < statusOkFim {
 			fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
+			registraLog(site, true)
 		} else {
 			fmt.Println("O site'", site, "'esta com problemas", resp.StatusCode)
+			registraLog(site, false)
 		}
 	}
 	fmt.Println()
@@ -118,6 +121,25 @@ func lerSitesDoArquivo() []string {
 	return sites
 }
 
-func iniciarLog() {
-	fmt.Println(("Verificando Logs..."))
+func registraLog(site string, status bool) {
+	//https://golang.org/src/time/format.go
+	const formatoData = "02/01/2006 15:04:05"
+	const quebraLinha = "\n"
+
+	arquivo := retornarArquivoDeLog()
+
+	arquivo.WriteString(site + " _online:" + strconv.FormatBool(status) +
+		" " + time.Now().Format(formatoData) + quebraLinha)
+	arquivo.Close()
+}
+
+func retornarArquivoDeLog() *os.File {
+	const permissao = 0666
+
+	arquivo, erro := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, permissao)
+
+	if erro != nil {
+		fmt.Println("Erro encontrado", erro)
+	}
+	return arquivo
 }
