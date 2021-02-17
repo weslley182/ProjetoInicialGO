@@ -60,9 +60,7 @@ func iniciarMonitoramento() {
 	sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
 		"https://random-status-code.herokuapp.com"}
 
-	for i, site := range sites {
-		fmt.Println("Posição", i)
-
+	for _, site := range sites {
 		resp, _ := http.Get(site)
 
 		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
