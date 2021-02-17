@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -80,7 +83,7 @@ func testarSites(sites []string) {
 	for _, site := range sites {
 		resp, erro := http.Get(site)
 
-		if erro != nil{
+		if erro != nil {
 			fmt.Println("Erro ao verificar site", erro)
 		}
 
@@ -93,14 +96,25 @@ func testarSites(sites []string) {
 	fmt.Println()
 }
 
-func lerSitesDoArquivo() []string{
-	var sites []string
-	_, erro := os.Open("sites.txt")
+func lerSitesDoArquivo() []string {
+	const quebraLinha = '\n'
 
-	if erro != nil{
-		fmt.Println("Erro ao verificar aquivo", erro)		
+	var sites []string
+	arquivo, erro := os.Open("sites.txt")
+
+	if erro != nil {
+		fmt.Println("Erro ao verificar aquivo", erro)
 	}
 
+	leitor := bufio.NewReader(arquivo)
+	for {
+		linha, erro := leitor.ReadString(quebraLinha)
+		sites = append(sites, strings.TrimSpace(linha))
+		if erro == io.EOF {
+			break
+		}
+	}
+	arquivo.Close()
 	return sites
 }
 
