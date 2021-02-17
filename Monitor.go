@@ -61,8 +61,10 @@ func iniciarMonitoramento() {
 	const tempoDelay = 3
 
 	fmt.Println("Monitorando...")
-	sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
-		"https://random-status-code.herokuapp.com"}
+	//sites := []string{"https://github.com/weslley182/ProjetoInicialGO",
+	//	"https://random-status-code.herokuapp.com"}
+
+	sites := lerSitesDoArquivo()
 
 	for i := 0; i < qtdMonitoramento; i++ {
 		testarSites(sites)
@@ -76,7 +78,11 @@ func testarSites(sites []string) {
 	const statusOkFim = 300
 
 	for _, site := range sites {
-		resp, _ := http.Get(site)
+		resp, erro := http.Get(site)
+
+		if erro != nil{
+			fmt.Println("Erro ao verificar site", erro)
+		}
 
 		if resp.StatusCode >= statusOkIni && resp.StatusCode < statusOkFim {
 			fmt.Println("O site'", site, "'esta em funcionamento", resp.StatusCode)
@@ -85,6 +91,17 @@ func testarSites(sites []string) {
 		}
 	}
 	fmt.Println()
+}
+
+func lerSitesDoArquivo() []string{
+	var sites []string
+	_, erro := os.Open("sites.txt")
+
+	if erro != nil{
+		fmt.Println("Erro ao verificar aquivo", erro)		
+	}
+
+	return sites
 }
 
 func iniciarLog() {
